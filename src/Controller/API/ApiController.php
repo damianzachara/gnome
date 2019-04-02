@@ -63,7 +63,9 @@ class ApiController extends AbstractController
 
         $basePath = $request->getUriForPath('/' . $path);
 
-        if (getimagesizefromstring($content)['mime'] != 'image/png') {
+        $mime_type = finfo_buffer(finfo_open(), $content, FILEINFO_MIME_TYPE);
+
+        if ($mime_type != 'image/png') {
             return false;
         };
         if (!$content) {
