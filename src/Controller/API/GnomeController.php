@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
 
 /**
  * @Route("/gnomes")
@@ -19,6 +21,35 @@ class GnomeController extends ApiController
      * @Route("/", name="gnome_new", methods="POST")
      * @param Request $request
      * @return JsonResponse
+     * @SWG\Post(
+     *     path="/api/gnomes/",
+     *     produces={"application/json"},
+     *     description="Post gnome",
+     *     operationId="post_gnome",
+     *     summary="Post gnome",
+     *     tags={"Gnomes"},
+     *     @SWG\Parameter(
+     *          name="Post gnome",
+     *          in="body",
+     *          description="JSON content for Gnome",
+     *          @SWG\Schema(
+     *             @SWG\Property(property="name", type="string", example="name"),
+     *             @SWG\Property(property="age", type="integer", example=25),
+     *             @SWG\Property(property="strength", type="integer", example=10),
+     *             @SWG\Property(property="image", type="base64", example="base64-image"),
+     *          )
+     *     ),
+     *
+     *    @SWG\Response(
+     *          response="200",
+     *          description="Success",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(property="status", type="string", example="Status information")
+     *          ),
+     *         description="Connection successful",
+     *     )
+     * )
      */
     public function postAction(Request $request): Response
     {
@@ -54,6 +85,26 @@ class GnomeController extends ApiController
      * @param $id
      * @param GnomeRepository $gnomeRepository
      * @return JsonResponse
+     * @SWG\Get(
+     *     path="/api/gnomes/{id}",
+     *     produces={"application/json"},
+     *     description="Get gnome",
+     *     operationId="get_gnome",
+     *     summary="Get gnome",
+     *     tags={"Gnomes"},
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Success",
+     *          @SWG\Schema(
+     *              type="object",
+     *                  @SWG\Property(property="status", type="string", example="OK"),
+     *                  @SWG\Property(property="gnome", ref=@Model(type=Gnome::class)
+     *                       )
+     *                  )
+     *          ),
+     *         description="Connection successful",
+     *     )
+     * )
      */
     public function getAction($id, GnomeRepository $gnomeRepository): Response
     {
@@ -73,6 +124,35 @@ class GnomeController extends ApiController
      * @param Gnome $id
      * @param GnomeRepository $gnomeRepository
      * @return JsonResponse
+     * @SWG\Put(
+     *     path="/api/gnomes/{id}",
+     *     produces={"application/json"},
+     *     description="Put gnome",
+     *     operationId="put_gnome",
+     *     summary="Put gnome",
+     *     tags={"Gnomes"},
+     *     @SWG\Parameter(
+     *          name="put gnome",
+     *          in="body",
+     *          description="JSON content for gnome",
+     *          @SWG\Schema(
+     *             @SWG\Property(property="name", type="string", example="name"),
+     *             @SWG\Property(property="age", type="integer", example=25),
+     *             @SWG\Property(property="strength", type="integer", example=10),
+     *             @SWG\Property(property="image", type="base64", example="base64-image"),
+     *          )
+     *     ),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Success",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="status", type="string", example="Status information")
+     *          ),
+     *         description="Connection successful",
+     *     )
+     * )
      */
     public function putAction(Request $request, $id, GnomeRepository $gnomeRepository): Response
     {
@@ -110,6 +190,24 @@ class GnomeController extends ApiController
      * @param $id
      * @param GnomeRepository $gnomeRepository
      * @return JsonResponse
+     * @SWG\Delete(
+     *     path="/api/gnomes/{id}",
+     *     produces={"application/json"},
+     *     description="delete gnome",
+     *     operationId="delete_gnome",
+     *     summary="Delete gnome",
+     *     tags={"Gnomes"},
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Success",
+     *          @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(property="status", type="string", example="Status information")
+     *          ),
+     *         description="Connection successful",
+     *     )
+     *
+     * )
      */
     public function deleteAction($id, GnomeRepository $gnomeRepository): Response
     {
